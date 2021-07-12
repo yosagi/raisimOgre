@@ -348,10 +348,10 @@ private:
   OgreVis():
     ApplicationContext("RaiSim OGRE")
   {
-    RSINFO("Loading RaisimOgre Resources from: " + resourceDir_)
-    RSINFO("Loading OGRE Configurations from: " + std::string(OGREVIS_MAKE_STR(OGRE_CONFIG_DIR)))
     resourceDir_ = std::string(OGREVIS_MAKE_STR(RAISIM_OGRE_RESOURCE_DIR));
     mFSLayer->setHomePath(std::string(OGREVIS_MAKE_STR(OGRE_CONFIG_DIR)));
+    RSINFO("Loading RaisimOgre Resources from: " + resourceDir_)
+    RSINFO("Loading OGRE Configurations from: " + std::string(OGREVIS_MAKE_STR(OGRE_CONFIG_DIR)))
     lm_ = std::make_unique<Ogre::LogManager>();
     lm_->createLog("", true, false, false); //TODO: redirect to our own logger.
     start = std::chrono::system_clock::now();
