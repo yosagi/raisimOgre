@@ -457,6 +457,11 @@ std::vector<GraphicObject> *OgreVis::registerSet(const std::string &name,
 
 void OgreVis::sync() {
   objectSet_.sync();
+  auto camtgt=objectSet_[cameraMan_->getTarget()];
+  if(camtgt.first==nullptr){
+    deselect();
+    cameraMan_->setTarget(nullptr);
+  }
 }
 
 void OgreVis::remove(raisim::Object *ob) {
