@@ -4,7 +4,7 @@ project(raisimOgre VERSION 0.7.0)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
-option(RAISIM_OGRE_EXAMPLES "Build example applications." TRUE)
+option(RAISIM_OGRE_EXAMPLES "Build example applications.")
 
 ####################################
 ########### dependencies ###########
