@@ -16,6 +16,20 @@ find_package(Eigen3 REQUIRED HINTS ${Eigen3_HINT})
 ####################################
 ############# building #############
 ####################################
+get_target_property(target_type OgreMain TYPE)
+if(target_type STREQUAL STATIC_LIBRARY)
+add_library(${PROJECT_NAME} STATIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui_plot.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui_draw.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui_widgets.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ImguiManager.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ImguiRenderable.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/AssimpLoader.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/OgreVis.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/CameraMan.cpp
+)
+else()
 add_library(${PROJECT_NAME} SHARED
   ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/imgui_plot.cpp
@@ -27,16 +41,20 @@ add_library(${PROJECT_NAME} SHARED
   ${CMAKE_CURRENT_SOURCE_DIR}/src/OgreVis.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/CameraMan.cpp
 )
-
+target_compile_options(${PROJECT_NAME} PUBLIC -fPIC)
+endif()
 add_library(raisim::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 add_subdirectory(third-party/assimp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
-target_compile_options(${PROJECT_NAME} PUBLIC -fPIC)
 target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:RELEASE>:-O3>")
 target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:DEBUG>:-O0>")
 target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:DEBUG>:-g>")
 target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:RELEASE>:-g>")
+
+set(RAISIM_OGRE_RESOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/rsc)
+target_compile_definitions(${PROJECT_NAME} INTERFACE -DOGRE_CONFIG_DIR=${CMAKE_CURRENT_BINARY_DIR}/ogre/ -DRAISIM_OGRE_RESOURCE_DIR=${RAISIM_OGRE_RESOURCE_DIR})
+
 
 target_link_libraries(${PROJECT_NAME} PUBLIC OgreMain OgreBites OgreRTShaderSystem OgreMeshLodGenerator raisim::assimp raisim::raisim pthread zzip SDL2)
 target_include_directories(${PROJECT_NAME}
