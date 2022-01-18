@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(raisimOgre VERSION 0.7.0)
+cmake_policy(SET CMP0077 NEW)
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
