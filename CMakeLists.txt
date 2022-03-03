@@ -6,12 +6,35 @@ include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
 option(RAISIM_OGRE_EXAMPLES "Build example applications.")
+option(RAISIM_OGRE_ENABLE_INSTALL_RULES "include install rules" ON)
+option(RAISIM_OGRE_STATICLIB "build static lib" ON)
 
 ####################################
 ########### dependencies ###########
 ####################################
 find_package(raisim 0.6.0 CONFIG REQUIRED)
-find_package(OGRE 1.12.1 CONFIG REQUIRED COMPONENTS Bites RTShaderSystem)
+if(NOT TARGET OgreMain)
+include(FetchContent)
+FetchContent_Declare(ogre
+ GIT_REPOSITORY https://github.com/leggedrobotics/ogre.git
+ GIT_TAG raisimOgre
+)
+set(OGRE_BUILD_COMPONENT_BITES ON)
+set(OGRE_BUILD_COMPONENT_CSHARP OFF)
+set(OGRE_BUILD_COMPONENT_JAVA OFF)
+set(OGRE_BUILD_COMPONENT_BITES ON)
+set(OGRE_BUILD_COMPONENT_CSHARP OFF)
+set(OGRE_BUILD_COMPONENT_JAVA OFF)
+set(OGRE_BUILD_COMPONENT_PYTHON OFF)
+set(OGRE_BUILD_DEPENDENCIES OFF)
+set(OGRE_BUILD_SAMPLES OFF)
+set(OGRE_BUILD_TOOLS OFF)
+set(OGRE_STATIC ${RAISIM_OGRE_STATICLIB})
+set(OGRE_INSTALL_SAMPLES OFF)
+set(OGRE_INSTALL_TOOLS OFF)
+set(OGRE_INSTALL_DOCS OFF)
+FetchContent_MakeAvailable(ogre)
+endif()
 find_package(Eigen3 REQUIRED HINTS ${Eigen3_HINT})
 
 ####################################
@@ -136,6 +159,7 @@ file(
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
+if(RAISIM_OGRE_ENABLE_INSTALL_RULES)
 # Install targets
 
 install(
@@ -167,6 +191,7 @@ install(
   DESTINATION
     ${CMAKE_INSTALL_INCLUDEDIR}
 )
+endif()
 
 ####################################
 ############# examples #############
