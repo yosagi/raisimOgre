@@ -8,3 +8,4 @@ FileSystem=@RAISIM_OGRE_RESOURCE_DIR@/ogreResources/Media/materials/programs
 FileSystem=@RAISIM_OGRE_RESOURCE_DIR@/ogreResources/Media/materials/scripts
 Zip=@RAISIM_OGRE_RESOURCE_DIR@/ogreResources/Media/packs/cubemapsJS.zip
 FileSystem=@RAISIM_OGRE_RESOURCE_DIR@/pbr
+FileSystem=@RAISIM_OGRE_RESOURCE_DIR@/ogreResources/Media/ShadowVolume
